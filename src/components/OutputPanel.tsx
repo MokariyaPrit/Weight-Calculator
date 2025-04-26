@@ -81,6 +81,8 @@ const OutputPanel: React.FC<Props> = ({ totalWeight, totalBox }) => {
                   sx={{ 
                     p: 2, 
                     mb: index < 2 ? 2 : 0,
+                    backgroundColor: index === 0 ? '#818cf8' : index === 1 ? '#e879f9' : '#bef264',
+                    // color: index === 0 ? '#e879f9' : index === 1 ? '#bef264' : '#818cf8',
                     '&:hover': { 
                       boxShadow: 3,
                       transform: 'scale(1.01)',
