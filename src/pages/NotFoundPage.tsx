@@ -1,9 +1,19 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Box, Typography, Button } from "@mui/material"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied"
 
 const NotFoundPage: React.FC = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate("/")
+    }, 0) // redirect after 0 seconds
+
+    return () => clearTimeout(timer)
+  }, [navigate])
+
   return (
     <Box
       sx={{
@@ -21,10 +31,10 @@ const NotFoundPage: React.FC = () => {
         404 – Page Not Found
       </Typography>
       <Typography variant="body1" color="text.secondary">
-        The page you're looking for doesn't exist.
+        The page you're looking for doesn't exist. Redirecting to home...
       </Typography>
       <Button variant="contained" component={Link} to="/">
-        Go Home
+        Go Home Now
       </Button>
     </Box>
   )
