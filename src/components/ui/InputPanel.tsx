@@ -1,4 +1,3 @@
-// src/components/InputPanel.tsx
 import React from 'react';
 import { TextField, Box, Stack, Typography } from '@mui/material';
 

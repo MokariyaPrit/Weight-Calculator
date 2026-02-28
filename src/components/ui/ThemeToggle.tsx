@@ -1,9 +1,7 @@
-"use client"
-
-import type React from "react"
+import React from "react"
 import { IconButton, Tooltip, useTheme } from "@mui/material"
 import { Brightness4, Brightness7 } from "@mui/icons-material"
-import { useThemeContext } from "../contexts/ThemeContext"
+import { useThemeContext } from "../../contexts/ThemeContext"
 
 const ThemeToggle: React.FC = () => {
   const theme = useTheme()
