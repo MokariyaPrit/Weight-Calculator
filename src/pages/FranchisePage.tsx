@@ -122,93 +122,238 @@ const FranchisePage: React.FC = () => {
   ]
 
   return (
-    <Box sx={{ maxWidth: 1000, mx: "auto", display: "flex", flexDirection: "column", gap: 3 }}>
+  <Box
+    sx={{
+      maxWidth: 1000,
+      mx: "auto",
+      px: { xs: 2, sm: 3 },
+      py: 2,
+      display: "flex",
+      flexDirection: "column",
+      gap: 3,
+    }}
+  >
+    <Typography
+      variant="h5"
+      fontWeight={700}
+      textAlign={{ xs: "center", sm: "left" }}
+    >
+      Franchise Profit Tracker
+    </Typography>
 
-      <Typography variant="h5" fontWeight={700}>Franchise Profit Tracker</Typography>
+    {/* ================= INCOME ================= */}
+    <Accordion expanded={accordionState.income} onChange={setAccordion("income")}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography fontWeight={700}>Income Details</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(4, 1fr)",
+            },
+            gap: 2,
+          }}
+        >
+          <TextField fullWidth label="Total Sales (₹)" type="number" value={sales} onChange={(e) => setSales(e.target.value)} />
+          <TextField fullWidth label="Overhead (₹)" type="number" value={overhead} onChange={(e) => setOverhead(e.target.value)} />
+          <TextField fullWidth label="Crossing Charges (₹)" type="number" value={crossing} onChange={(e) => setCrossing(e.target.value)} />
+          <TextField fullWidth label="Software Fee (₹)" type="number" value={softwareFee} onChange={(e) => setSoftwareFee(Number(e.target.value))} />
+        </Box>
 
-      {/* ================= INCOME ================= */}
-      <Accordion expanded={accordionState.income} onChange={setAccordion("income")}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight={700}>Income Details</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-            <TextField label="Total Sales (₹)" type="number" value={sales} onChange={(e) => setSales(e.target.value)} />
-            <TextField label="Overhead (₹)" type="number" value={overhead} onChange={(e) => setOverhead(e.target.value)} />
-            <TextField label="Crossing Charges (₹)" type="number" value={crossing} onChange={(e) => setCrossing(e.target.value)} />
-            <TextField label="Software Fee (₹)" type="number" value={softwareFee} onChange={(e) => setSoftwareFee(Number(e.target.value))} />
-            <FormControlLabel
-              control={<Checkbox checked={excludeOverhead} onChange={(e) => setExcludeOverhead(e.target.checked)} />}
-              label="Exclude Overhead from Income"
-            />
-            <Button startIcon={<ClearAllIcon />} variant="outlined" color="error" onClick={clearAll}>
-              Clear All Data
-            </Button>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+        <Box
+          sx={{
+            mt: 2,
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: 2,
+            alignItems: { sm: "center" },
+            justifyContent: "space-between",
+          }}
+        >
+          <FormControlLabel
+            control={<Checkbox checked={excludeOverhead} onChange={(e) => setExcludeOverhead(e.target.checked)} />}
+            label="Exclude Overhead from Income"
+          />
 
-      {/* ================= EXPENSES ================= */}
-      <Accordion expanded={accordionState.expenses} onChange={setAccordion("expenses")}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight={700}>Monthly Expenses</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Chip sx={{ fontSize: '1.2rem', mb: 2 }} label={`Total: ₹${formatINR(totalExp)}`} color="primary" />
-          <Box sx={{ display: "grid", gridTemplateColumns: `repeat(${itemsPerRow}, minmax(250px, 1fr))`, gap: 2 }}>
-            {expenses.map((item, index) => (
-              <Box key={index} sx={{ display: "flex", gap: 1, alignItems: "center", border: "1px solid", borderColor: "divider", borderRadius: 2, p: 1 }}>
-                <TextField size="small" label="Name" value={item.name} onChange={(e) => updateName(index, e.target.value)} />
-                <TextField size="small" type="number" label="Amount" value={item.amount} onChange={(e) => updateAmount(index, e.target.value)} />
-              </Box>
-            ))}
-          </Box>
-          <Button startIcon={<AddCircleOutlineIcon />} onClick={addExpense} sx={{ mt: 2 }} variant="outlined">
-            Add Expense
+          <Button
+            fullWidth={true}
+            startIcon={<ClearAllIcon />}
+            variant="outlined"
+            color="error"
+            onClick={clearAll}
+            sx={{ width: { sm: "auto" } }}
+          >
+            Clear All Data
           </Button>
-        </AccordionDetails>
-      </Accordion>
+        </Box>
+      </AccordionDetails>
+    </Accordion>
 
-      {/* ================= BREAKDOWN ================= */}
-      <Accordion expanded={accordionState.breakdown} onChange={setAccordion("breakdown")}>
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography fontWeight={700}>Detailed Breakdown</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-            {breakdownRows.map((row) => (
-              <Box key={row.label} sx={{ width: { xs: "100%", sm: "50%" }, display: "flex", justifyContent: "space-between", py: 0.75, px: 1 }}>
-                <Typography fontWeight={600}>{row.label}</Typography>
-                <Typography fontWeight={800}>{row.value}</Typography>
-              </Box>
-            ))}
-            <Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", py: 0.75, px: 1, color: "#4f46e5" }}>
-              <Typography fontWeight={900}>Overhead Loss (Company %)</Typography>
-              <Typography fontWeight={900}>₹{overheadLoss.toFixed(2)}</Typography>
+    {/* ================= EXPENSES ================= */}
+    <Accordion expanded={accordionState.expenses} onChange={setAccordion("expenses")}>
+      <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+        <Typography fontWeight={700}>Monthly Expenses</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        <Chip
+          sx={{ fontSize: "1rem", mb: 2 }}
+          label={`Total: ₹${formatINR(totalExp)}`}
+          color="primary"
+        />
+
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: `repeat(${itemsPerRow}, minmax(250px, 1fr))`,
+            },
+            gap: 2,
+          }}
+        >
+          {expenses.map((item, index) => (
+            <Box
+              key={index}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 2,
+                p: 2,
+              }}
+            >
+              <TextField
+                fullWidth
+                size="small"
+                label="Name"
+                value={item.name}
+                onChange={(e) => updateName(index, e.target.value)}
+              />
+              <TextField
+                fullWidth
+                size="small"
+                type="number"
+                label="Amount"
+                value={item.amount}
+                onChange={(e) => updateAmount(index, e.target.value)}
+              />
             </Box>
-          </Box>
+          ))}
+        </Box>
 
-          <Divider sx={{ my: 2 }} />
+        <Button
+          fullWidth
+          startIcon={<AddCircleOutlineIcon />}
+          onClick={addExpense}
+          sx={{ mt: 2 }}
+          variant="outlined"
+        >
+          Add Expense
+        </Button>
+      </AccordionDetails>
+    </Accordion>
 
-          <Box sx={{ width: "100%", display: "flex", justifyContent: "space-between", py: 0.75, px: 1, color: "error.main" }}>
-            <Typography fontWeight={900}>Company Final Total</Typography>
-            <Typography fontWeight={900}>₹{formatINR(companyFinalRounded)}</Typography>
-          </Box>
+    {/* ================= BREAKDOWN ================= */}
+   {/* ================= BREAKDOWN ================= */}
+<Accordion expanded={accordionState.breakdown} onChange={setAccordion("breakdown")}>
+  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+    <Typography fontWeight={700}>Detailed Breakdown</Typography>
+  </AccordionSummary>
 
-          <Divider sx={{ my: 2 }} />
+  <AccordionDetails>
+    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
 
-          <Box sx={{ p: 2, borderRadius: 2, bgcolor: profit >= 0 ? "success.light" : "error.light", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              {profit >= 0 ? <TrendingUpIcon /> : <TrendingDownIcon />}
-              <Typography fontWeight={900}>Net Profit</Typography>
-            </Box>
-            <Typography fontWeight={900}>₹{formatINR(profit)}</Typography>
-          </Box>
-        </AccordionDetails>
-      </Accordion>
+      {/* NORMAL ROWS */}
+      {breakdownRows.map((row) => (
+        <Box
+          key={row.label}
+          sx={{
+            width: { xs: "100%", md: "50%" }, // 📱 mobile full, 🖥 desktop 2-column
+            display: "flex",
+            justifyContent: "space-between",
+            py: 1,
+            px: 1,
+            borderRadius: 1,
+            "&:hover": { bgcolor: "action.hover" },
+          }}
+        >
+          <Typography fontWeight={600}>{row.label}</Typography>
+          <Typography fontWeight={800}>{row.value}</Typography>
+        </Box>
+      ))}
+
+      {/* OVERHEAD LOSS FULL WIDTH */}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          py: 1,
+          px: 1,
+          color: "#4f46e5",
+          fontWeight: 900,
+        }}
+      >
+        <Typography fontWeight={900}>Overhead Loss (Company %)</Typography>
+        <Typography fontWeight={900}>
+          ₹{overheadLoss.toFixed(2)}
+        </Typography>
+      </Box>
+
+      <Divider sx={{ my: 2, width: "100%" }} />
+
+      {/* COMPANY FINAL TOTAL */}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          py: 1,
+          px: 1,
+          color: "error.main",
+        }}
+      >
+        <Typography fontWeight={900}>Company Final Total</Typography>
+        <Typography fontWeight={900}>
+          ₹{formatINR(companyFinalRounded)}
+        </Typography>
+      </Box>
+
+      <Divider sx={{ my: 2, width: "100%" }} />
+
+      {/* NET PROFIT BANNER */}
+      <Box
+        sx={{
+          width: "100%",
+          p: 2,
+          borderRadius: 2,
+          bgcolor: profit >= 0 ? "success.light" : "error.light",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          {profit >= 0 ? <TrendingUpIcon /> : <TrendingDownIcon />}
+          <Typography fontWeight={900}>Net Profit</Typography>
+        </Box>
+        <Typography fontWeight={900}>
+          ₹{formatINR(profit)}
+        </Typography>
+      </Box>
 
     </Box>
-  )
+  </AccordionDetails>
+</Accordion>
+  </Box>
+)
 }
 
 export default FranchisePage
