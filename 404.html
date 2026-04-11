@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <title>Weight Calculator</title>
     <script>
+      var path = window.location.pathname;
       var base = '/Weight-Calculator';
-      var path = window.location.pathname.replace(base, '') || '/';
-      var search = window.location.search;
-      var hash = window.location.hash;
-      window.location.replace(
-        base + '/?p=' + encodeURIComponent(path + search) +
-        (hash ? '&hash=' + encodeURIComponent(hash) : '')
-      );
+      window.location.replace(base + '/?p=' + encodeURIComponent(path.replace(base, '')));
     </script>
   </head>
 </html>
